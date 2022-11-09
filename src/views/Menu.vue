@@ -2,7 +2,7 @@
   <div class="menu">
     <h1 class="menu__header">Menu</h1>
 
-    <h3 class="menu__subHeader">🍔burgir🍔</h3>
+    <h3 class="menu__subHeader">Sprawdź to mordo!</h3>
 
     <div class="menu__content">
       <Categories :categories="categories" />
@@ -33,6 +33,12 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+
+@media only screen and (min-width: 768px) {
+  .menu {
+    padding: 0 20px;
+  }
 }
 
 .menu__header {

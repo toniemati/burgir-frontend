@@ -8,7 +8,7 @@
       <h2 class="category__name">{{ category.name }}</h2>
 
       <div class="category__products">
-        <Product
+        <CategoriesProduct
           v-for="product in category.products"
           :key="product.id"
           :product="product"
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import Product from "../components/Product";
+import CategoriesProduct from "../components/CategoriesProduct";
 import { defineProps } from "vue";
 
 const props = defineProps({
