@@ -15,14 +15,17 @@
 </template>
 
 <script setup>
+import { useStore } from "vuex";
 import { defineProps } from "vue";
+
+const store = useStore();
 
 const props = defineProps({
   product: Object,
 });
 
 const addToCart = () => {
-  alert("dodaje do koszyka " + props.product.id);
+  store.dispatch("addToCart", props.product.id);
 };
 </script>
 
