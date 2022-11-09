@@ -81,13 +81,25 @@
   row-gap: 20px;
 }
 
+@media only screen and (min-width: 768px) {
+  .content__info {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+}
+
 .content__info a {
   color: #f59705;
   text-decoration: none;
 }
 
-.content__godziny {
-  /* color: pink; */
+/* .content__godziny {} */
+
+@media only screen and (min-width: 768px) {
+  .content__godziny {
+    width: fit-content;
+    margin: 20px auto 0;
+  }
 }
 
 .godziny__header {
