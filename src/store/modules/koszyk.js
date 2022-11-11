@@ -28,7 +28,16 @@ export const koszyk = {
       alert('Dodano do koszyka');
     },
     removeFromCart: (state, payload) => {
-      console.log('removeFromCart', state, payload);
+      console.log(state.products, payload);
+      state.products = state.products.filter(p => p.product_id !== payload);
+    },
+    changeQuantity: (state, payload) => {
+      state.products = state.products.map(p => {
+        if (p.product_id === payload.product_id) {
+          p.quantity = payload.quantity;
+        }
+        return p;
+      })
     }
   },
   actions: {
@@ -37,6 +46,9 @@ export const koszyk = {
     },
     removeFromCart: (context, payload) => {
       context.commit('removeFromCart', payload);
+    },
+    changeQuantity: (context, payload) => {
+      context.commit('changeQuantity', payload);
     }
   }
 }
