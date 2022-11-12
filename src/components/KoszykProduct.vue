@@ -20,7 +20,7 @@
         <div class="quantity__value">{{ props.product.quantity }}</div>
 
         <button
-          @click="() => changeQuantity(props.product.quantity + 1)"
+          @click="changeQuantity(props.product.quantity + 1)"
           class="quantity__button"
         >
           +
@@ -39,12 +39,13 @@
 <script setup>
 import { useStore } from "vuex";
 import { defineProps, onMounted, ref } from "vue";
-import axios from "axios";
+// import axios from "axios";
 
 const store = useStore();
 
 const props = defineProps({
   product: Object,
+  list: Array,
 });
 
 const product = ref({});
@@ -53,25 +54,21 @@ const changeQuantity = (num) => {
   if (num < 1) return deleteProduct();
 
   store.dispatch("changeQuantity", {
-    product_id: props.product.product_id,
+    product_id: product.value.id,
     quantity: num,
   });
 };
 
 const deleteProduct = () => {
-  store.dispatch('removeFromCart', props.product.product_id);
+  store.dispatch("removeFromCart", product.value.id);
 };
 
-const getProduct = async () => {
-  const response = await axios.get(
-    `http://192.168.0.34:8000/api/product/${props.product.product_id}`
-  );
-  const { data } = await response;
-  product.value = data;
+const setProduct = () => {
+  product.value = props.list.find((p) => p.id === props.product.product_id);
 };
 
 onMounted(() => {
-  getProduct();
+  setProduct();
 });
 </script>
 
@@ -90,7 +87,7 @@ onMounted(() => {
 .product__left img {
   width: 100px;
   height: 100px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .product__right {
@@ -110,6 +107,8 @@ onMounted(() => {
 }
 
 .content__name {
+  font-size: 18px;
+  font-weight: bold;
   font-style: italic;
 }
 

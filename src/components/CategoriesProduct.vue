@@ -5,7 +5,9 @@
     </div>
 
     <div class="product__right">
-      {{ props.product.description }}
+      <div class="right__name">{{ props.product.name }}</div>
+
+      <div class="right__desc">{{ props.product.description }}</div>
     </div>
 
     <button @click="addToCart" class="product__addButton">
@@ -44,11 +46,22 @@ const addToCart = () => {
 .product__left img {
   width: 100px;
   height: 100px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .product__right {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.right__name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.right__desc {
   font-style: italic;
 }
 

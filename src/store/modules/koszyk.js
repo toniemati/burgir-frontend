@@ -1,12 +1,9 @@
+import axios from "axios";
+
 export const koszyk = {
   state: () => ({
     customer_id: 1,
-    products: [
-      {
-        product_id: 1,
-        quantity: 2
-      },
-    ]
+    products: []
   }),
   getters: {
     getKoszyk: (state) => state
@@ -25,10 +22,9 @@ export const koszyk = {
         });
       }
 
-      alert('Dodano do koszyka');
+      alert('Dodano do koszyka 🛒');
     },
     removeFromCart: (state, payload) => {
-      console.log(state.products, payload);
       state.products = state.products.filter(p => p.product_id !== payload);
     },
     changeQuantity: (state, payload) => {
@@ -38,6 +34,9 @@ export const koszyk = {
         }
         return p;
       })
+    },
+    zamow: (state) => {
+      state.products = [];
     }
   },
   actions: {
@@ -49,6 +48,20 @@ export const koszyk = {
     },
     changeQuantity: (context, payload) => {
       context.commit('changeQuantity', payload);
+    },
+    zamow: async (context) => {
+      //* losowe wybranie customera
+      const { data: customers } = await axios.get('http://192.168.0.34:8000/api/customers');
+      context.state.customer_id = Math.floor(Math.random() * customers.length)
+
+      const response = await axios.post('http://192.168.0.34:8000/api/orders', context.state);
+
+      if (response.status === 200) {
+        context.commit('zamow');
+        alert('Zamówiono 🍔🍟');
+      } else {
+        alert('Nie udało się złożyc zamówienia 😥');
+      }
     }
   }
 }

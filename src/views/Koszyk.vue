@@ -4,11 +4,16 @@
 
     <h3 class="koszyk__subHeader">Twoje zakupy</h3>
 
-    <div class="koszyk__content">
+    <button v-if="koszyk.products.length >= 1" @click="zamow()" class="koszyk__zamowButton">
+      Zamów i zapłać
+    </button>
+
+    <div v-if="products.length" class="koszyk__content">
       <KoszykProduct
         v-for="product in koszyk.products"
         :key="product.id"
         :product="product"
+        :list="products"
       />
     </div>
   </div>
@@ -23,6 +28,10 @@ import { useStore } from "vuex";
 const store = useStore();
 const koszyk = computed(() => store.getters.getKoszyk);
 const products = ref([]);
+
+const zamow = () => {
+  store.dispatch("zamow");
+};
 
 const getProducts = async () => {
   const response = await axios.get("http://192.168.0.34:8000/api/products");
@@ -57,6 +66,31 @@ onMounted(() => {
   color: #f59705;
   font-size: 18px;
   text-align: center;
+}
+
+.koszyk__zamowButton {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  color: #f59705;
+  background: #eee;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+@media only screen and (min-width: 480px) {
+  .koszyk__zamowButton {
+    width: 300px;
+    margin: 0 auto;
+  }
+}
+
+.koszyk__zamowButton:hover {
+  color: #eee;
+  background: #f59705;
 }
 
 .koszyk__content {

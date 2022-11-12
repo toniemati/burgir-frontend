@@ -14,7 +14,7 @@
     </ul>
 
     <div class="header__logo">
-      <router-link :to="{ name: 'home' }">
+      <router-link to="/">
         <img class="header__img" src="../assets/burgir.png" alt="Burgir" />
       </router-link>
     </div>
@@ -25,7 +25,7 @@
       </li>
 
       <li class="header__item">
-        <router-link :to="{ name: 'kontakt' }">Kontakt</router-link>
+        <router-link to="/kontakt">Kontakt</router-link>
       </li>
     </ul>
   </nav>
