@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <router-link :to="`/product/details/${product.id}`" class="product">
     <div class="product__left">
       <img :src="props.product.img" :alt="props.product.name" />
     </div>
@@ -7,13 +7,13 @@
     <div class="product__right">
       <div class="right__name">{{ props.product.name }}</div>
 
-      <div class="right__desc">{{ props.product.description }}</div>
+      <div class="right__desc">{{ props.product.description.substr(0, 70) }}</div>
     </div>
 
     <button @click="addToCart" class="product__addButton">
       🛒 {{ props.product.price }}
     </button>
-  </div>
+  </router-link>
 </template>
 
 <script setup>
@@ -36,6 +36,15 @@ const addToCart = () => {
   display: flex;
   align-items: center;
   column-gap: 10px;
+  color: #eee;
+  text-decoration: none;
+}
+.product:hover .product__right .right__name {
+  color: #f59705;
+}
+
+.product:hover .product__left img {
+  transform: scale(1.1);
 }
 
 .product__left {
@@ -47,6 +56,7 @@ const addToCart = () => {
   width: 100px;
   height: 100px;
   object-fit: cover;
+  transition: transform 0.2s ease-in-out;
 }
 
 .product__right {
@@ -59,6 +69,7 @@ const addToCart = () => {
 .right__name {
   font-size: 18px;
   font-weight: bold;
+  transition: color 0.2s ease-in-out;
 }
 
 .right__desc {
