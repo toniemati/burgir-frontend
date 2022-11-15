@@ -26,7 +26,8 @@ const props = defineProps({
   product: Object,
 });
 
-const addToCart = () => {
+const addToCart = (e) => {
+  e.preventDefault();
   store.dispatch("addToCart", props.product.id);
 };
 </script>
