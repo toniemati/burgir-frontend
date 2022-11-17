@@ -4,9 +4,17 @@
 
     <h3 class="koszyk__subHeader">Twoje zakupy</h3>
 
-    <button v-if="koszyk.products.length >= 1" @click="zamow()" class="koszyk__zamowButton">
+    <button
+      v-if="koszyk.products.length >= 1"
+      @click="zamow()"
+      class="koszyk__zamowButton"
+    >
       Zamów i zapłać
     </button>
+
+    <router-link v-else to="/menu" class="koszyk__menuLink">
+      Jak chcesz coś zjeść to dodaj to najpierw do koszyka :)
+    </router-link>
 
     <div v-if="products.length" class="koszyk__content">
       <KoszykProduct
@@ -91,6 +99,19 @@ onMounted(() => {
 .koszyk__zamowButton:hover {
   color: #eee;
   background: #f59705;
+}
+
+.koszyk__menuLink {
+  margin: 20px auto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #117098;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.koszyk__menuLink:hover {
+  filter: brightness(1.5);
 }
 
 .koszyk__content {

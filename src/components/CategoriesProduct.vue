@@ -7,7 +7,11 @@
     <div class="product__right">
       <div class="right__name">{{ props.product.name }}</div>
 
-      <div class="right__desc">{{ props.product.description.substr(0, 70) }}</div>
+      <div class="right__desc">
+        {{ props.product.description.length <=70 
+          ? props.product.description 
+          : props.product.description.substr(0, 70) + '...' }}
+      </div>
     </div>
 
     <button @click="addToCart" class="product__addButton">
