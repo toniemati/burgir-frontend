@@ -1,4 +1,6 @@
 import axios from "axios";
+import { API_URL } from '../../config';
+
 
 export const koszyk = {
   state: () => ({
@@ -51,10 +53,10 @@ export const koszyk = {
     },
     zamow: async (context) => {
       //* losowe wybranie customera
-      const { data: customers } = await axios.get('http://192.168.0.34:8000/api/customers');
+      const { data: customers } = await axios.get(API_URL + 'customers');
       context.state.customer_id = Math.floor(Math.random() * customers.length)
 
-      const response = await axios.post('http://192.168.0.34:8000/api/orders', context.state);
+      const response = await axios.post(API_URL + 'orders', context.state);
 
       if (response.status === 200) {
         context.commit('zamow');

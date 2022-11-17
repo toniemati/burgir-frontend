@@ -34,6 +34,7 @@
 </template>
 
 <script setup>
+import { API_URL } from "@/config";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -44,9 +45,7 @@ const router = useRouter();
 const product = ref({});
 
 const getProduct = async () => {
-  const response = await axios.get(
-    `http://192.168.0.34:8000/api/product/${route.params.id}`
-  );
+  const response = await axios.get(`${API_URL}product/${route.params.id}`);
   const { data } = await response;
   product.value = data;
 

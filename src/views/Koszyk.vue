@@ -32,6 +32,7 @@ import KoszykProduct from "../components/KoszykProduct";
 import axios from "axios";
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
+import { API_URL } from "@/config";
 
 const store = useStore();
 const koszyk = computed(() => store.getters.getKoszyk);
@@ -42,7 +43,7 @@ const zamow = () => {
 };
 
 const getProducts = async () => {
-  const response = await axios.get("http://192.168.0.34:8000/api/products");
+  const response = await axios.get(API_URL + "products");
   const { data } = await response;
   products.value = data;
 };

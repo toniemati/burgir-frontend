@@ -14,11 +14,12 @@
 import Categories from "../components/Categories";
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import { API_URL } from "@/config";
 
 const categories = ref([]);
 
 const getCategories = async () => {
-  const response = await axios.get("http://192.168.0.34:8000/api/categories");
+  const response = await axios.get(API_URL + "categories");
   const { data } = await response;
   categories.value = data;
 };
