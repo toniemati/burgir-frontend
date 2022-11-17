@@ -37,7 +37,11 @@ export const koszyk = {
         return p;
       })
     },
+    setCustomer: (state, payload) => {
+      state.customer_id = payload;
+    },
     zamow: (state) => {
+      state.customer_id = 1;
       state.products = [];
     }
   },
@@ -51,11 +55,10 @@ export const koszyk = {
     changeQuantity: (context, payload) => {
       context.commit('changeQuantity', payload);
     },
+    setCustomer: (context, payload) => {
+      context.commit('setCustomer', payload);
+    },
     zamow: async (context) => {
-      //* losowe wybranie customera
-      const { data: customers } = await axios.get(API_URL + 'customers');
-      context.state.customer_id = Math.floor(Math.random() * customers.length)
-
       const response = await axios.post(API_URL + 'orders', context.state);
 
       if (response.status === 200) {

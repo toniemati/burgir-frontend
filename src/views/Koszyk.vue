@@ -25,6 +25,27 @@
       />
     </div>
   </div>
+
+  <div v-if="showModal" class="modal">
+    <div class="modal__content">
+      <div class="content__klient">
+        <select @change="handleKlientChange">
+          <option value="null" selected disabled>Wybierz klienta</option>
+          <option
+            v-for="customer in customers"
+            :key="customer.id"
+            :value="customer.id"
+            name="customer"
+          >
+            {{ customer.id }}. {{ customer.first_name }}
+            {{ customer.last_name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="content__form">form</div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -37,9 +58,18 @@ import { API_URL } from "@/config";
 const store = useStore();
 const koszyk = computed(() => store.getters.getKoszyk);
 const products = ref([]);
+const customers = ref([]);
+const showModal = ref(false);
 
 const zamow = () => {
+  showModal.value = true;
+  // store.dispatch("zamow");
+};
+
+const handleKlientChange = (e) => {
+  store.dispatch("setCustomer", e.target.value);
   store.dispatch("zamow");
+  showModal.value = false;
 };
 
 const getProducts = async () => {
@@ -48,13 +78,21 @@ const getProducts = async () => {
   products.value = data;
 };
 
+const getCustomers = async () => {
+  const response = await axios.get(API_URL + "customers");
+  const { data } = await response;
+  customers.value = data;
+};
+
 onMounted(() => {
   getProducts();
+  getCustomers();
 });
 </script>
 
 <style scoped>
 .koszyk {
+  position: relative;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -119,5 +157,20 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #000000aa;
+  display: flex;
+  justify-content: center;
+}
+
+.modal__content {
+  margin-top: 10%;
 }
 </style>
