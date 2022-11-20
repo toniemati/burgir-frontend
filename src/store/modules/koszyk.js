@@ -59,12 +59,11 @@ export const koszyk = {
       context.commit('setCustomer', payload);
     },
     zamow: async (context) => {
-      const response = await axios.post(API_URL + 'orders', context.state);
-
-      if (response.status === 200) {
-        context.commit('zamow');
+      try {
+        const response = await axios.post(API_URL + 'orders', context.state);
+        context.commit('zamow', response.data);
         alert('Zamówiono 🍔🍟');
-      } else {
+      } catch (e) {
         alert('Nie udało się złożyc zamówienia 😥');
       }
     }
