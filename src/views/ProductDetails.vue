@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <div v-if="product.id" class="product">
     <div class="product__up">
       <div class="up__left">
         {{ product.name }}
@@ -47,7 +47,9 @@ const product = ref({});
 const getProduct = async () => {
   const response = await axios.get(`${API_URL}product/${route.params.id}`);
   const { data } = await response;
-  
+
+  if (!data.id) return router.back();
+
   product.value = data;
 };
 

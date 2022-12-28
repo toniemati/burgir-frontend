@@ -1,5 +1,5 @@
 <template>
-  <div class="delivery">
+  <div v-if="delivery.id" class="delivery">
     <h1 class="delivery__header">Dostawa - {{ $route.params.id }}</h1>
 
     <div class="delivery__content">
@@ -10,9 +10,9 @@
 
       <div class="delivery__stat">
         Dostarczono:
-        <span class="delivery__value">{{
-          delivery.delivered ? "tak" : "nie"
-        }}</span>
+        <span class="delivery__value">
+          {{ delivery.delivered ? "tak" : "nie" }}
+        </span>
       </div>
 
       <div class="delivery__stat">
@@ -41,15 +41,17 @@
 import { API_URL } from "@/config";
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const delivery = ref({});
-
 const route = useRoute();
+const router = useRouter();
 
 const getDelivery = async () => {
   const response = await axios.get(API_URL + "deliveries/" + route.params.id);
   const { data } = await response;
+
+  if (!data.id) return router.back();
 
   delivery.value = data;
 };
@@ -77,7 +79,11 @@ onMounted(() => {
   text-transform: uppercase;
 }
 
-/* .delivery__content {} */
+.delivery__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
 
 .delivery__stat {
   font-size: 16px;

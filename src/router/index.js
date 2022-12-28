@@ -6,6 +6,9 @@ import Koszyk from '../views/Koszyk.vue';
 import Onas from '../views/Onas.vue';
 import Kontakt from '../views/Kontakt.vue';
 import Deliveries from '@/views/stats/Deliveries.vue';
+import Auto from '@/views/stats/Auto.vue';
+import Pracownik from '@/views/stats/Pracownik.vue';
+import Klient from '@/views/stats/Klient.vue';
 
 const routes = [
   {
@@ -42,6 +45,21 @@ const routes = [
     path: '/dostawa/:id',
     name: 'dostawaDetails',
     component: Deliveries
+  },
+  {
+    path: '/auto/:id',
+    name: 'autoDetails',
+    component: Auto
+  },
+  {
+    path: '/pracownik/:id',
+    name: 'pracownikDetails',
+    component: Pracownik
+  },
+  {
+    path: '/klient/:id',
+    name: 'klientDetails',
+    component: Klient
   }
 ]
 

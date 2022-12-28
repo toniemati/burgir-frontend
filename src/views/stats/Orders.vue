@@ -1,5 +1,5 @@
 <template>
-  <div class="zamowienia">
+  <div v-if="orders.length" class="zamowienia">
     <ButtonToBottom />
 
     <div class="zamowienia__content">
@@ -16,7 +16,10 @@
           <td>{{ order.id }}</td>
           <td>{{ order.order_date }}</td>
           <td>
-            {{ order.customer.first_name }} {{ order.customer.last_name }}
+            <router-link :to="'/klient/' + order.customer.id">
+              {{ order.customer.first_name }}
+              {{ order.customer.last_name }}
+            </router-link>
           </td>
           <td>
             <router-link :to="'/dostawa/' + order.delivery.id">
@@ -90,6 +93,7 @@ import ButtonToBottom from "../../components/ButtonToBottom.vue";
 import { API_URL } from "@/config";
 import axios from "axios";
 import { onMounted, ref } from "vue";
+
 const orders = ref([]);
 
 const getOrders = async () => {

@@ -5,7 +5,11 @@
     </div>
 
     <div class="product__right">
-      <div class="content__name">{{ product.name }}</div>
+      <div class="content__name">
+        <router-link :to="'/product/details/' + product.id">
+          {{ product.name }}
+        </router-link>
+      </div>
 
       <div class="content__price">{{ product.price }}zł</div>
 
@@ -110,6 +114,11 @@ onMounted(() => {
   font-size: 18px;
   font-weight: bold;
   font-style: italic;
+}
+
+.content__name a {
+  text-decoration: none;
+  color: #f59705;
 }
 
 .content__price {

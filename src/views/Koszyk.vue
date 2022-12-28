@@ -135,6 +135,7 @@ const handleFormSubmit = async (e) => {
 const getProducts = async () => {
   const response = await axios.get(API_URL + "products");
   const { data } = await response;
+
   products.value = data;
 };
 

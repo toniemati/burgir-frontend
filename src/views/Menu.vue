@@ -4,7 +4,7 @@
 
     <h3 class="menu__subHeader">Sprawdź to mordo!</h3>
 
-    <div class="menu__content">
+    <div v-if="categories.length" class="menu__content">
       <Categories :categories="categories" />
     </div>
   </div>
@@ -21,6 +21,7 @@ const categories = ref([]);
 const getCategories = async () => {
   const response = await axios.get(API_URL + "categories");
   const { data } = await response;
+
   categories.value = data;
 };
 
