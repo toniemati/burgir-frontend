@@ -5,6 +5,7 @@ import ProductDetails from '../views/ProductDetails.vue';
 import Koszyk from '../views/Koszyk.vue';
 import Onas from '../views/Onas.vue';
 import Kontakt from '../views/Kontakt.vue';
+import Orders from '../views/stats/Orders.vue';
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     name: 'kontakt',
     component: Kontakt
   },
+  {
+    path: '/zamowienia',
+    name: 'zamowienia',
+    component: Orders
+  }
 ]
 
 const router = createRouter({

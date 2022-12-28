@@ -47,9 +47,8 @@ const product = ref({});
 const getProduct = async () => {
   const response = await axios.get(`${API_URL}product/${route.params.id}`);
   const { data } = await response;
+  
   product.value = data;
-
-  console.log(data);
 };
 
 onMounted(() => {
