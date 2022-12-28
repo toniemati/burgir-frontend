@@ -5,7 +5,7 @@ import ProductDetails from '../views/ProductDetails.vue';
 import Koszyk from '../views/Koszyk.vue';
 import Onas from '../views/Onas.vue';
 import Kontakt from '../views/Kontakt.vue';
-import Orders from '../views/stats/Orders.vue';
+import Deliveries from '@/views/stats/Deliveries.vue';
 
 const routes = [
   {
@@ -39,9 +39,9 @@ const routes = [
     component: Kontakt
   },
   {
-    path: '/zamowienia',
-    name: 'zamowienia',
-    component: Orders
+    path: '/dostawa/:id',
+    name: 'dostawaDetails',
+    component: Deliveries
   }
 ]
 

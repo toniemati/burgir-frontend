@@ -18,7 +18,11 @@
           <td>
             {{ order.customer.first_name }} {{ order.customer.last_name }}
           </td>
-          <td>{{ order.delivery.id }}</td>
+          <td>
+            <router-link :to="'/dostawa/' + order.delivery.id">
+              {{ order.delivery.id }}
+            </router-link>
+          </td>
           <td>
             <div v-for="product in order.products" :key="product.id">
               <router-link :to="'/product/details/' + product.id">{{
@@ -169,5 +173,6 @@ onMounted(() => {
 .summary__value {
   font-weight: bold;
   font-size: 18px;
+  color: #f59705;
 }
 </style>

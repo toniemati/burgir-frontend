@@ -38,6 +38,4 @@ import Orders from "../views/stats/Orders";
   text-align: center;
 }
 
-.home__content {
-}
 </style>
