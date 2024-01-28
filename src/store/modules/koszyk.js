@@ -5,7 +5,11 @@ import { API_URL } from '../../config';
 export const koszyk = {
   state: () => ({
     customer_id: 1,
-    products: []
+    products: [
+      // { product_id: 1, quantity: 1 },
+      // { product_id: 6, quantity: 1 },
+      // { product_id: 10, quantity: 1 }
+    ]
   }),
   getters: {
     getKoszyk: (state) => state

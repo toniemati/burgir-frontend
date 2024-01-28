@@ -97,7 +97,7 @@ import { onMounted, ref } from "vue";
 const orders = ref([]);
 
 const getOrders = async () => {
-  const response = await axios.get(API_URL + "orders");
+  const response = await axios.get(API_URL + "orders?userid=1");
   const { data } = await response;
 
   orders.value = data;

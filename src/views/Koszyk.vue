@@ -4,11 +4,7 @@
 
     <h3 class="koszyk__subHeader">Twoje zakupy</h3>
 
-    <button
-      v-if="koszyk.products.length >= 1"
-      @click="goModalVisible"
-      class="koszyk__zamowButton"
-    >
+    <button v-if="koszyk.products.length >= 1" @click="goModalVisible" class="koszyk__zamowButton">
       Zamów i zapłać
     </button>
 
@@ -17,16 +13,17 @@
     </router-link>
 
     <div v-if="products.length" class="koszyk__content">
-      <KoszykProduct
-        v-for="product in koszyk.products"
-        :key="product.id"
-        :product="product"
-        :list="products"
-      />
+      <KoszykProduct v-for="product in koszyk.products" :key="product.id" :product="product" :list="products" />
     </div>
   </div>
 
   <div v-if="showModal" class="modal">
+    <div class="modal__buttons">
+      <div class="buttons__item" v-if="option.length" @click="option = ''">⏪</div>
+
+      <div class="buttons__item" @click="showModal = false; option = ''">❌</div>
+    </div>
+
     <div class="modal__content">
       <div v-if="!option.length" class="modal__options">
         <button @click="option = 'log'">Zaloguj się</button>
@@ -34,26 +31,21 @@
         <button @click="option = 'reg'">Zarejestruj się</button>
       </div>
 
-      <div v-else-if="option === 'log'" class="modal__login">
-        <select @change="handleKlientChange">
-          <option value="null" selected disabled>Wybierz klienta</option>
-          <option
-            v-for="customer in customers"
-            :key="customer.id"
-            :value="customer.id"
-            name="customer"
-          >
-            {{ customer.id }}. {{ customer.first_name }}
-            {{ customer.last_name }}
-          </option>
-        </select>
-      </div>
+      <form v-else-if="option === 'log'" class="modal__register" @submit="handleLogin">
+        <div class="register__group">
+          <input type="text" placeholder="Nazwa" />
+          <input type="password" placeholder="Hasło" />
+        </div>
 
-      <form
-        v-else-if="option === 'reg'"
-        class="modal__register"
-        @submit="handleFormSubmit"
-      >
+        <button type="submit">Zaloguj i zamów</button>
+      </form>
+
+      <form v-else-if="option === 'reg'" class="modal__register" @submit="handleFormSubmit">
+        <div class="register__group">
+          <input type="text" placeholder="Nazwa" />
+          <input type="password" placeholder="Hasło" />
+        </div>
+
         <div class="register__group">
           <input type="text" placeholder="Imię" />
           <input type="text" placeholder="Nazwisko" />
@@ -74,7 +66,7 @@
           <input type="text" placeholder="E-mail" />
         </div>
 
-        <button type="submit">Zarejestruj się</button>
+        <button type="submit">Zarejestruj i zamów</button>
       </form>
     </div>
   </div>
@@ -104,37 +96,71 @@ const zamow = (customerId) => {
   showModal.value = false;
 };
 
-const handleKlientChange = (e) => {
-  zamow(e.target.value);
-};
+const handleLogin = async (e) => {
+  e.preventDefault();
+
+  const data = {
+    login: e.target[0].value,
+    password: e.target[1].value
+  }
+
+  const ok = Object.values(data).every(value => value);
+
+  if (ok) {
+    try {
+      const response = await axios.post(API_URL + "login", data);
+
+      e.target.reset();
+
+      if (response.data.success) {
+        zamow(response.data.customerId);
+        option.value = "";
+      } else {
+        alert('Błędne dane logowania');
+      }
+    } catch (e) {
+      alert("Nie udało się zalogować, spróbuj ponownie poźniej");
+    }
+  } else {
+    alert('Uzupełnij wszystkie pola!');
+  }
+
+}
 
 const handleFormSubmit = async (e) => {
   e.preventDefault();
 
   const data = {
-    first_name: e.target[0].value,
-    last_name: e.target[1].value,
-    country: e.target[2].value,
-    city: e.target[3].value,
-    street: e.target[4].value,
-    house_number: e.target[5].value,
-    telephone: e.target[6].value,
-    email: e.target[7].value,
+    login: e.target[0].value,
+    password: e.target[1].value,
+    first_name: e.target[2].value,
+    last_name: e.target[3].value,
+    country: e.target[4].value,
+    city: e.target[5].value,
+    street: e.target[6].value,
+    house_number: e.target[7].value,
+    telephone: e.target[8].value,
+    email: e.target[9].value,
   };
 
-  try {
-    const response = await axios.post(API_URL + "customers", data);
-    e.target.reset();
-    zamow(response.data.id);
-    option.value = "";
-  } catch (e) {
-    alert("Nie udało się zarejestrować, spróbuj ponownie poźniej");
+  const ok = Object.values(data).every(value => value);
+
+  if (ok) {
+    try {
+      const response = await axios.post(API_URL + "customers", data);
+      e.target.reset();
+      zamow(response.data.id);
+      option.value = "";
+    } catch (e) {
+      alert("Nie udało się zarejestrować, spróbuj ponownie poźniej");
+    }
+  } else {
+    alert('Uzupełnij wszystkie pola!');
   }
 };
 
 const getProducts = async () => {
-  const response = await axios.get(API_URL + "products");
-  const { data } = await response;
+  const { data } = await axios.get(API_URL + "products");
 
   products.value = data;
 };
@@ -231,6 +257,21 @@ onMounted(() => {
   justify-content: center;
 }
 
+.modal__buttons {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 32px;
+  width: 100%;
+}
+
+.buttons__item {
+  cursor: pointer;
+}
+
 .modal__content {
   padding: 0 5px;
   width: 100%;
@@ -250,6 +291,7 @@ onMounted(() => {
   justify-content: center;
   column-gap: 20px;
 }
+
 .modal__options button {
   outline: none;
   border: none;
@@ -262,6 +304,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
+
 .modal__options button:hover {
   background: #eee;
   color: #f59705;
